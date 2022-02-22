@@ -1,29 +1,43 @@
-import React from 'react';
-import './Sidebar.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import data from "./Data";
-
+import React from "react";
+import "./Sidebar.css";
+import { useState } from "react";
+import Triigers from "./Triigers";
+import Action from "./Action";
+import FlowControl from "./FlowControl";
+import Controls from "./Controls";
+import "./Trigger.css";
 function Sidebar() {
-    const onDragStart = (event, nodeTypes, icon) => {
-        event.dataTransfer.setData('application/reactflow', nodeTypes);
-        event.dataTransfer.effectAllowed = 'move';
-    };
-    return (
-        <aside>
+  const [show, setShow] = useState({
+    trigger: true,
+    Action: false,
+    FlowControl: false,
+    Controls: false,
+  });
 
-            <div style={{ display: "grid", gridTemplateColumns: "33% 33% 33%", marginTop: "50px", border: "1px solid black" }}>
+  return (
+    <div>
+      <aside style={{ width: "300px" }}>
+        <div style={{ backgroundColor: "#3d404e", height: "70px" }}>
+          <input
+            type="text"
+            placeholder="Search  Controls"
+            style={{
+              width: "260px",
+              height: "10px",
+              borderRadius: "3px",
+              border: "1px solid black",
+              padding: "10px",
+              margin: "20px 0px 20px 10px",
+            }}
+          />
+        </div>
 
-                {data.map((data, index) => (
-                    <div key={index}
-                        onDragStart={(event) => onDragStart(event, data.type, data.icon)} draggable>
-                        <FontAwesomeIcon icon={data?.icon} style={{ height: "auto", width: "25px", color: '#ffff', padding: '8px', borderRadius: '50%', margin: '10px 2px 0px 25px', backgroundColor: '#1E90FF' }} />
-
-                        <p style={{ color: "white", display: "flex", margin: "10px 0 0 10px", fontSize: "13px", marginLeft: "15px" }}>{data.text}</p>
-
-                    </div>
-                ))}
-            </div>
-        </aside>
-    );
+        <Triigers show={show} setShow={setShow} />
+        <Action show={show} setShow={setShow} />
+        <Controls show={show} setShow={setShow} />
+        <FlowControl show={show} setShow={setShow} />
+      </aside>
+    </div>
+  );
 }
 export default Sidebar;
